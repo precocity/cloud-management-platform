@@ -1,0 +1,13 @@
+CREATE EXTENSION "uuid-ossp";
+
+CREATE TABLE requests (
+    id BIGSERIAL PRIMARY KEY,
+    uid UUID DEFAULT uuid_generate_v4() NOT NULL,
+    requestor_id UUID NOT NULL,
+    title VARCHAR(100) NOT NULL,
+    description TEXT,
+    resource_type_id UUID NOT NULL,
+    status VARCHAR(20) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT (CURRENT_TIMESTAMP AT TIME ZONE 'UTC') NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT (CURRENT_TIMESTAMP AT TIME ZONE 'UTC') NOT NULL
+);

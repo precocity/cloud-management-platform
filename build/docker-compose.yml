@@ -1,0 +1,24 @@
+version: '3'
+services:
+  request.service:
+    build:
+      context: ../
+      dockerfile: build/Dockerfile.request
+    environment:
+      - DB_NAME=request_svc
+      - DB_HOST=requests.db
+      - DB_PORT=5432
+      - DB_PASS=request_svc
+      - DB_USER=request_svc
+    ports:
+      - "8000:3000"
+    links:
+      - requests.db
+  requests.db:
+    image: postgres:11.1-alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: request_svc
+      POSTGRES_USER: request_svc
+    ports:
+      - "2345:5432"

@@ -1,0 +1,77 @@
+openapi: 3.0.1
+info:
+  title: CMP Resource Request Service
+  description: 'A Service To Request Approval To Create Cloud Resources'
+  contact:
+    email: nick@luxiconnltd.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+paths:
+  /request:
+    post:
+      tags:
+      - request
+      summary: Create A New Request
+      operationId: createRequest
+      requestBody:
+        description: Request object that needs to be sent for approval
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Request'
+        required: true
+      responses:
+        201:
+          description: Request Created
+          content: {}
+        400:
+          description: Invalid Input
+          content: {}
+components:
+  schemas:
+    Request:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        requestor_id:
+          type: string
+          format: uuid
+        resource_type_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          description: Request Status
+          enum:
+            - pending
+            - approved
+            - denied
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        
+    
+  securitySchemes:
+    petstore_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: http://petstore.swagger.io/oauth/dialog
+          scopes:
+            write:pets: modify pets in your account
+            read:pets: read your pets
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header

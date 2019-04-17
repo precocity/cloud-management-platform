@@ -1,0 +1,12 @@
+FROM alpine:latest as certs
+RUN apk --update add ca-certificates
+
+FROM scratch
+COPY --from=certs /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+ADD bin/request-service /
+
+Add tools/migrations/resource-request-service /migrations
+
+EXPOSE 3000
+
+CMD ["/request-service"]
